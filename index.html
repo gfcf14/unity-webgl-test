@@ -21,5 +21,34 @@
         // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
       });
     </script>
+    <script>
+      const canvasWidth = 1920;
+      const canvasHeight = 1080;
+      const canvas = document.querySelector('#unity-canvas');
+
+      function resize() {
+        const currWidth = window.innerWidth;
+        const currHeight = window.innerHeight;
+
+        if (currHeight < canvasHeight) {
+          const scaleFactor = (currHeight / canvasHeight);
+          canvas.style.zoom = `${scaleFactor * 95}%`;
+        } else if (currWidth < canvasWidth) {
+          const scaleFactor = (currWidth / canvasWidth);
+          canvas.style.zoom = `${scaleFactor * 95}%`;
+        } else {
+          canvas.style.zoom = 'normal';
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", (event) => {
+        canvas.focus();
+        resize();
+      });
+
+      window.addEventListener('resize', (event) => {
+        resize();
+      }, true);
+    </script>
   </body>
 </html>
