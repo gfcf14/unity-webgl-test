@@ -4,9 +4,34 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | Kingdom's End</title>
+    <style>
+      .controls-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      img {
+        width: 100%;
+      }
+
+      @media only screen and (min-width: 768px) {
+        .controls-container {
+          flex-direction: row;
+        }
+
+        img {
+          width: auto;
+        }
+      }
+    </style>
   </head>
   <body style="text-align: center">
     <canvas id="unity-canvas" width=1920 height=1080 style="width: 1920px; height: 1080px; background: #231F20"></canvas>
+    <h3>Kingdom's End: WebGL version for Web Play</h3>
+    <div class="controls-container">
+      <img src="controls-keyboard.jpg">
+      <img src="controls-gamepad.jpg">
+    </div>
     <script src="Build/WebGL.loader.js"></script>
     <script>
       createUnityInstance(document.querySelector("#unity-canvas"), {
