@@ -1,93 +1,109 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport">
-    <title>Unity WebGL Player | Kingdom's End</title>
-    <style>
-      .controls-container {
-        display: flex;
-        flex-direction: column;
-        gap: 60px;
-        justify-content: center;
-      }
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unity WebGL Player | Kingdom's End</title>
+  <style>
+    body {
+      text-align: center;
+      margin: 0;
+      overflow: hidden; /* Prevents scrolling on small devices */
+    }
 
-      .links {
-        display: flex;
-        flex-direction: column;
+    .controls-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px; /* Adjusted gap for smaller screens */
+      justify-content: center;
+      align-items: center;
+    }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media only screen and (min-width: 768px) {
+      .controls-container {
+        flex-direction: row;
+        gap: 60px; /* Original gap for larger screens */
       }
 
       img {
-        width: 100%;
+        width: auto;
       }
+    }
 
-      @media only screen and (min-width: 768px) {
-        .controls-container {
-          flex-direction: row;
-        }
+    canvas {
+      width: 100%;
+      height: auto;
+      background: #231F20;
+    }
 
-        img {
-          width: auto;
-        }
+    h3, p, a {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="unity-canvas"></canvas>
+  <h3>Kingdom's End: WebGL version for Web Play</h3>
+  <div class="controls-container">
+    <img src="controls-keyboard.jpg" alt="Keyboard Controls">
+    <img src="controls-gamepad.jpg" alt="Gamepad Controls">
+  </div>
+  <h3>Kingdom's End: WebGL version for Web Play</h3>
+  <div class="links">
+    <p>Wanna contribute to the game? Please visit:</p>
+    <a href="https://discord.gg/NWTssHxb" target="_blank">Discord - For discussion</a>
+    <a href="https://trello.com/invite/b/taUx6eKa/ATTIfc158800ff89f08f4141530e8fa40f7bD3A95BA3/tasks-for-2d-metroidvania" target="_blank">Trello - To contribute with bugs</a>
+  </div>
+  <script src="Build/WebGL.loader.js"></script>
+  <script>
+    createUnityInstance(document.querySelector("#unity-canvas"), {
+      dataUrl: "Build/WebGL.data",
+      frameworkUrl: "Build/WebGL.framework.js",
+      codeUrl: "Build/WebGL.wasm",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "GreenDream Programming and Games",
+      productName: "Kingdom's End",
+      productVersion: "1.0",
+      // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
+      // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
+    });
+  </script>
+  <script>
+    const canvas = document.querySelector('#unity-canvas');
+    const container = canvas.parentElement;
+
+    function resizeCanvas() {
+      const aspectRatio = 1920 / 1080;
+      const windowAspectRatio = window.innerWidth / window.innerHeight;
+
+      if (windowAspectRatio < aspectRatio) {
+        // Window is taller, scale based on width
+        canvas.style.width = `${window.innerWidth}px`;
+        canvas.style.height = `${window.innerWidth / aspectRatio}px`;
+      } else {
+        // Window is wider, scale based on height
+        canvas.style.width = `${window.innerHeight * aspectRatio}px`;
+        canvas.style.height = `${window.innerHeight}px`;
       }
-    </style>
-  </head>
-  <body style="text-align: center">
-    <canvas id="unity-canvas" width=1920 height=1080 style="width: 1920px; height: 1080px; background: #231F20"></canvas>
-    <h3>Kingdom's End: WebGL version for Web Play</h3>
-    <div class="controls-container">
-      <img src="controls-keyboard.jpg">
-      <img src="controls-gamepad.jpg">
-    </div>
-    <h3>Kingdom's End: WebGL version for Web Play</h3>
-    <div class="links">
-      <p>Wanna contribute to the game? Please visit:</p>
-      <a href="https://discord.gg/NWTssHxb">Discord - For discussion</a>
-      <a href="https://trello.com/invite/b/taUx6eKa/ATTIfc158800ff89f08f4141530e8fa40f7bD3A95BA3/tasks-for-2d-metroidvania">Trello - To contribute with bugs</a>
-    </div>
-    <script src="Build/WebGL.loader.js"></script>
-    <script>
-      createUnityInstance(document.querySelector("#unity-canvas"), {
-        dataUrl: "Build/WebGL.data",
-        frameworkUrl: "Build/WebGL.framework.js",
-        codeUrl: "Build/WebGL.wasm",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "GreenDream Programming and Games",
-        productName: "Kingdom's End",
-        productVersion: "1.0",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
-      });
-    </script>
-    <script>
-      const canvasWidth = 1920;
-      const canvasHeight = 1080;
-      const canvas = document.querySelector('#unity-canvas');
+    }
 
-      function resize() {
-        const currWidth = window.innerWidth;
-        const currHeight = window.innerHeight;
-
-        if (currHeight < canvasHeight) {
-          const scaleFactor = (currHeight / canvasHeight);
-          canvas.style.zoom = `${scaleFactor * 95}%`;
-        } else if (currWidth < canvasWidth) {
-          const scaleFactor = (currWidth / canvasWidth);
-          canvas.style.zoom = `${scaleFactor * 95}%`;
-        } else {
-          canvas.style.zoom = 'normal';
-        }
-      }
-
-      document.addEventListener("DOMContentLoaded", (event) => {
-        canvas.focus();
-        resize();
-      });
-
-      window.addEventListener('resize', (event) => {
-        resize();
-      }, true);
-    </script>
-  </body>
+    window.addEventListener('resize', resizeCanvas);
+    document.addEventListener('DOMContentLoaded', () => {
+      resizeCanvas();
+      canvas.focus();
+    });
+  </script>
+</body>
 </html>
